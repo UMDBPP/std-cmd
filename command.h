@@ -53,7 +53,7 @@ void set_handler(uint8_t *args);
  */
 void parse_text_command(uint8_t *buf, command *cmd, bool contains_device_id);
 void print_op_code(op_code);
-void print_command(command *cmd);
+void print_command(command *);
 
 
 
