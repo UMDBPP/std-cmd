@@ -40,7 +40,7 @@ void err_handler(uint8_t *args);
 void stat_handler(uint8_t *args);
 void get_handler(uint8_t *args);
 void set_handler(uint8_t *args);
-void help_handler(uint8_t *args);
+
 
 /**
  * Parses a command given in text form. Optionally can parse a Device ID if it
