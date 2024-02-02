@@ -6,9 +6,9 @@
 
 #include "pico/stdlib.h"
 
-const char *op_code_strings[] = {"nop",  "test", "text", "vent", "reset",
+const char *op_code_strings[] = {"nop",  "test", "send", "vent", "reset",
                                  "pos",  "term", "ack",  "nack", "err",
-                                 "stat", "get",  "set"};
+                                 "stat", "get",  "set",  "lstn"};
 
 void parse_text_command(uint8_t *buf, command *cmd, bool contains_device_id) {
     static char whitespace[] = " \t\f\r\v\n";
@@ -26,9 +26,9 @@ void parse_text_command(uint8_t *buf, command *cmd, bool contains_device_id) {
     } else
         token = strtok(buf, whitespace);
 
-    if (strcmp(token, op_code_strings[TEXT]) == 0) {
-        cmd->op = TEXT;
-        cmd->handler = &text_handler;
+    if (strcmp(token, op_code_strings[SEND]) == 0) {
+        cmd->op = SEND;
+        cmd->handler = &send_handler;
     } else if (strcmp(token, op_code_strings[RESET]) == 0) {
         cmd->op = RESET;
         cmd->handler = &reset_handler;
@@ -53,6 +53,9 @@ void parse_text_command(uint8_t *buf, command *cmd, bool contains_device_id) {
     } else if (strcmp(token, op_code_strings[SET]) == 0) {
         cmd->op = SET;
         cmd->handler = &set_handler;
+    } else if (strcmp(token, op_code_strings[LSTN]) == 0) {
+        cmd->op = LSTN;
+        cmd->handler = &lstn_handler;
     } else {
         cmd->op = NOP;
         cmd->handler = &no_op_handler;
@@ -67,8 +70,8 @@ void print_op_code(op_code op) {
         case TEST:
             printf("%s\n", op_code_strings[TEST]);
             break;
-        case TEXT:
-            printf("%s\n", op_code_strings[TEXT]);
+        case SEND:
+            printf("%s\n", op_code_strings[SEND]);
             break;
         case VENT:
             printf("%s\n", op_code_strings[VENT]);
@@ -99,6 +102,9 @@ void print_op_code(op_code op) {
             break;
         case SET:
             printf("%s\n", op_code_strings[SET]);
+            break;
+        case LSTN:
+            printf("%s\n", op_code_strings[LSTN]);
             break;
         default:
             printf("Invalid Op Code\n");

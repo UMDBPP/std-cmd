@@ -6,7 +6,7 @@
 typedef enum Commands {
     NOP = 0,
     TEST,
-    TEXT,
+    SEND,
     VENT,
     RESET,
     POS,
@@ -16,7 +16,8 @@ typedef enum Commands {
     ERR,
     STAT,
     GET,
-    SET
+    SET,
+    LSTN
 } op_code;
 
 typedef struct Command {
@@ -29,7 +30,7 @@ typedef struct Command {
 // User-defined for now
 void no_op_handler(uint8_t *args);
 void test_handler(uint8_t *args);
-void text_handler(uint8_t *args);
+void send_handler(uint8_t *args);
 void vent_handler(uint8_t *args);
 void reset_handler(uint8_t *args);
 void pos_handler(uint8_t *args);
@@ -40,7 +41,7 @@ void err_handler(uint8_t *args);
 void stat_handler(uint8_t *args);
 void get_handler(uint8_t *args);
 void set_handler(uint8_t *args);
-
+void lstn_handler(uint8_t *args);
 
 /**
  * Parses a command given in text form. Optionally can parse a Device ID if it
@@ -52,9 +53,8 @@ void set_handler(uint8_t *args);
  * Device ID, assumes the Device ID comes before the OP-Code
  */
 void parse_text_command(uint8_t *buf, command *cmd, bool contains_device_id);
+
 void print_op_code(op_code);
 void print_command(command *);
-
-
 
 #endif
